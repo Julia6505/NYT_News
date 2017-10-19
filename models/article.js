@@ -3,17 +3,17 @@ var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
 
-  title: {
-    type: String,
-    required: true
-  },
-
   link: {
     type: String,
     required: true
   },
 
-  description: {
+  blurb: {
+    type: String,
+    required: true
+  },
+
+  headline: {
       type: String,
       required: true
   },

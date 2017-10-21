@@ -18,12 +18,17 @@
   </div>
   </div>
 <section>
+   
 <div class="card">
-  <h4 class="card-header">Link to Article</h4>
+   {{#each articles}}
+  <h4 class="card-header">{{this.header}}</h4>
+     {{/each}}
   <div class="card-body">
     {{!-- <h4 class="card-title">Special title treatment</h4> --}}
-    <p class="card-text">Blurb about article goes here.</p>
+    <p class="card-text">Stuff</p>
     <a href="#" class="btn btn-primary">Save article</a>
+    
   </div>
 </div>
+  
 </section>

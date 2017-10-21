@@ -41,18 +41,16 @@ app.set("view engine", "handlebars");
 
 // Routes
 
-app.get("/", function(req, res) {
-  res.render("index");
-
-});
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/nytscrape", {
   useMongoClient: true
 });
-// 2. At the "/all" path, display every entry in the animals collection
+
+
 app.get("/scrape", function(req, res) {
-  //Scraping code, Cheerio
-  axios.get("https://www.nytimes.com/section/technology?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Tech&WT.nav=page").then(function(response) {
+
+  axios.get("https://www.nytimes.com/section/technology?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Tech&WT.nav=page")
+  .then(function(response) {
 
   var $ = cheerio.load(response.data);
 
@@ -64,80 +62,51 @@ app.get("/scrape", function(req, res) {
     // console.log("This is my blurb " + results.blurb)
     results.headline = $(this).children().find(".headline").text();
     // console.log("This is my headline " + results.headline)
-    db.Article
+    // var i;
+    
+    // console.log("%d", i++, results);
+    
+  db.Article
     .create(results)
     .then(function(dbArticle) {
-      // res.send("Scrape Complete");
-      console.log(results)
+      res.render(dbArticle);
+      // res.end();
+      
+      console.log("YES", dbArticle);
     })
     .catch(function(err) {
-      res.json(err);
-    })
+    res.json(err);
   })
+})
   })
 })
 
-    //--------below code was for Mongojs before Mongoose 
-  //   if (headline && link && blurb) {
-  //     db.articles.insert({
-  //       headline: headline,
-  //       link: link,
-  //       blurb: blurb
-  //     },
-  //   function (err, inserted) {
-  //     if (err) {
-  //       console.log(err);
-  //     }
-  //     else {
-  //       console.log(inserted);
-  //     }
-  //   });
-  // }
-  //----------end of Mongojs code
-
-
-//   db.articles.find({}, function(error, found) {
-//     if (error) {
-//       console.log(error);
-//     }
-//     else {
-//       res.json(found);
-//     }
-//   });
+app.get("/", function(req, res) {
+  // db.Article
+  // .find({})
+  // .then(function(dbArticle) {
+  res.render("index");
+});
 // });
 
-// 3. At the "/name" path, display every entry in the animals collection, sorted by name
-// app.get("/name", function(req, res) {
-  // Query: In our database, go to the animals collection, then "find" everything,
-  // but this time, sort it by name (1 means ascending order)
-//   db.animals.find().sort({ name: 1 }, function(error, found) {
-    // // Log any errors if the server encounters one
-    // if (error) {
-    //   console.log(error);
-    // }
-    // Otherwise, send the result of this query to the browser
-//     else {
-//       res.json(found);
-//     }
-//   });
-// });
+app.get("/articles", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article
+    .find({})
+    .then(function(dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      // res.json(dbArticle);
+      console.log(dbArticle, "WHAT")
+      res.render({ articles: dbArticle });
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
 
-// 4. At the "/weight" path, display every entry in the animals collection, sorted by weight
-//app.get("/weight", function(req, res) {
-  // Query: In our database, go to the animals collection, then "find" everything,
-  // but this time, sort it by weight (-1 means descending order)
-  //db.animals.find().sort({ weight: -1 }, function(error, found) {
-    // Log any errors if the server encounters one
-   // if (error) {
-    //  console.log(error);
-   // }
-    // Otherwise, send the result of this query to the browser
-//     else {
-//       res.json(found);
-//     }
-//   });
-// });
 
 app.listen(3000, function() {
-  console.log("We are running on port 3000. Awesomeness.");
+  console.log("We are running on port 3000. Awesomeness.")
 });
+

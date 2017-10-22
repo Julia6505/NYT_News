@@ -46,6 +46,14 @@ mongoose.connect("mongodb://localhost/nytscrape", {
   useMongoClient: true
 });
 
+app.get("/", function(req, res) {
+  db.Article
+  .find({})
+  .then(function(dbArticle) {
+  // res.render("index");
+  res.render("index", { articles : dbArticle });
+});
+});
 
 app.get("/scrape", function(req, res) {
 
@@ -62,14 +70,11 @@ app.get("/scrape", function(req, res) {
     // console.log("This is my blurb " + results.blurb)
     results.headline = $(this).children().find(".headline").text();
     // console.log("This is my headline " + results.headline)
-    // var i;
-    
-    // console.log("%d", i++, results);
-    
+
   db.Article
     .create(results)
     .then(function(dbArticle) {
-      res.json(dbArticle);
+      res.json(dbArticle);  
       // res.end();
       
       // console.log("YES", dbArticle);
@@ -77,18 +82,10 @@ app.get("/scrape", function(req, res) {
     .catch(function(err) {
     res.json(err);
   })
-})
   })
 })
-
-app.get("/", function(req, res) {
-  db.Article
-  .find({})
-  .then(function(dbArticle) {
-  // res.render("index");
-  res.render("index", { articles : dbArticle });
-});
-});
+})
+// })
 
 app.get("/articles", function(req, res) {
   db.Article
@@ -96,6 +93,7 @@ app.get("/articles", function(req, res) {
     .then(function(dbArticle) {
       res.json(dbArticle);
       // console.log(dbArticle, "scraped")
+      console.log("TESTING THIS TESTING THIS")
     })
     .catch(function(err) {
       res.json(err);

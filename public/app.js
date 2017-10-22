@@ -35,11 +35,9 @@ $.getJSON("/scrape", function(data) {
 $('#show-articles').on("click", function (event) {
     event.preventDefault();
     $.getJSON("/articles", function(data) {
-      for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      $(".card-header").append(data[i].headline);
-    }
-    console.log(data, "THIS IS DATAAAAAAA")
+    //   for (var i = 0; i < data.length; i++) {
+    //   $(".card-header").append(data[i].headline); 
+    console.log(data, "THIS IS DATA")
   });
 });
 

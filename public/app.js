@@ -14,9 +14,9 @@
 // });
 
 // $.getJSON("/articles", function(data) {
-//     // For each one
-//     for (var i = 0; i < data.length; i++) {
-//       // Display the apropos information on the page
+    // For each one
+    // for (var i = 0; i < data.length; i++) {
+      // Display the apropos information on the page
 //       $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
 //     }
 //   });
@@ -24,15 +24,23 @@
 //come back to this for buttons 
 $("#submit-scrape").on("click", function(event) {
     event.preventDefault();
-$.getJSON("/articles", function(data) {
-    console.log("not sure what to put here now")
-//    for (var i = 0; i < data.length; i++) {
-//     if (i < 21) {
-//Display the apropos information on the page
-//  $(".card-header").append(data[i].headline);
+
+$.getJSON("/scrape", function(data) {
+
+  console.log("not sure what to put here now")
+   });
+});
+
+
+$('#show-articles').on("click", function (event) {
+    event.preventDefault();
+    $.getJSON("/articles", function(data) {
+      for (var i = 0; i < data.length; i++) {
+      // Display the apropos information on the page
+      $(".card-header").append(data[i].headline);
+    }
+    console.log(data, "THIS IS DATAAAAAAA")
   });
-// }
-//    });
 });
 
 $("#save-article").on("click", function(event) {

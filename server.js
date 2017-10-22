@@ -69,10 +69,10 @@ app.get("/scrape", function(req, res) {
   db.Article
     .create(results)
     .then(function(dbArticle) {
-      res.render(dbArticle);
+      res.json(dbArticle);
       // res.end();
       
-      console.log("YES", dbArticle);
+      // console.log("YES", dbArticle);
     })
     .catch(function(err) {
     res.json(err);
@@ -82,25 +82,22 @@ app.get("/scrape", function(req, res) {
 })
 
 app.get("/", function(req, res) {
-  // db.Article
-  // .find({})
-  // .then(function(dbArticle) {
-  res.render("index");
+  db.Article
+  .find({})
+  .then(function(dbArticle) {
+  // res.render("index");
+  res.render("index", { articles : dbArticle });
 });
-// });
+});
 
 app.get("/articles", function(req, res) {
-  // Grab every document in the Articles collection
   db.Article
     .find({})
     .then(function(dbArticle) {
-      // If we were able to successfully find Articles, send them back to the client
-      // res.json(dbArticle);
-      console.log(dbArticle, "WHAT")
-      res.render({ articles: dbArticle });
+      res.json(dbArticle);
+      // console.log(dbArticle, "scraped")
     })
     .catch(function(err) {
-      // If an error occurred, send it to the client
       res.json(err);
     });
 });

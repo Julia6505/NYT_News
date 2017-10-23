@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "dependencies": {
+    "axios": "^0.17.0",
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongojs": "^2.4.1",
+    "mongoose": "^4.12.4",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.12.1",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -16,15 +29,5 @@
   "bugs": {
     "url": "https://github.com/Julia6505/NYT_News/issues"
   },
-  "homepage": "https://github.com/Julia6505/NYT_News#readme",
-  "dependencies": {
-    "body-parser": "^1.18.2",
-    "cheerio": "^1.0.0-rc.2",
-    "express": "^4.16.2",
-    "express-handlebars": "^3.0.0",
-    "mongojs": "^2.4.1",
-    "mongoose": "^4.12.3",
-    "nodemon": "^1.12.1",
-    "request": "^2.83.0"
-  }
+  "homepage": "https://github.com/Julia6505/NYT_News#readme"
 }

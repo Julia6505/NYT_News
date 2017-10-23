@@ -9,7 +9,7 @@ var axios = require("axios");
 var db = require("./models");
 
 // var PORT = process.env.PORT || 8080;
-var PORT = process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
 var app = express();
 
 //------Mongo DB before using Mongoose
@@ -127,7 +127,7 @@ app.post("/save", function(req, res) {
   })
   })
 
-app.listen(PORT, function() {
+app.listen(port, function() {
   console.log("We are running on port 3000. Awesomeness.")
 });
 

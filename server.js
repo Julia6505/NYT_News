@@ -5,7 +5,7 @@ var cheerio = require("cheerio");
 var request = require("request");
 // var logger = require("morgan");
 var mongoose = require("mongoose");
-// var axios = require("axios");
+var axios = require("axios");
 var db = require("./models");
 
 // var PORT = process.env.PORT || 8080;

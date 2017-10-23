@@ -40,9 +40,9 @@ app.set("view engine", "handlebars");
 // });
 
 // Routes
-
+//mongodb://user:pass@host:port/db'
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://NYT_Scrape:smbfa2fg73eagj2ej7082khavj@ds227865.mlab.com:27865/heroku_n08zrf87", {
+mongoose.connect("mongodb://julia6505:smbfa2fg73eagj2ej7082khavj@ds227865.mlab.com:27865/NYT_Scrape", {
   useMongoClient: true
 });
 //render the homepage with the handlebars index

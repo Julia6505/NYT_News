@@ -1,3 +1,4 @@
+
 //come back to this to revise. Not sure about the appends here. This code will allow the scraped articles to the print on the html page (in cards).
 
 // function displayScrapes(articles) {
@@ -22,32 +23,33 @@
 //   });
   
 //come back to this for buttons 
-$("#submit-scrape").on("click", function(event) {
-    event.preventDefault();
+// $("#submit-scrape").on("click", function(event) {
+//     event.preventDefault();
 
-$.getJSON("/scrape", function(data) {
+// $.getJSON("/scrape", function(data) {
 
-  console.log("not sure what to put here now")
-   });
-});
+//   console.log("not sure what to put here now")
+//    });
+// });
 
 
-$('#show-articles').on("click", function (event) {
-    event.preventDefault();
-    $.getJSON("/articles", function(data) {
+
+// $('#show-articles').on("click", function (event) {
+//     event.preventDefault();
+//     $.getJSON("/articles", function(data) {
     //   for (var i = 0; i < data.length; i++) {
     //   $(".card-header").append(data[i].headline); 
-    console.log(data, "THIS IS DATA")
-  });
-});
+//     console.log(data, "THIS IS DATA")
+//   });
+// });
 
-$("#save-article").on("click", function(event) {
-    event.preventDefault();
+// $("#save-article").on("click", function(event) {
+//     event.preventDefault();
 // $.getJSON("/scrape", function(data) {
-    console.log("clicked PLEEEASEEE")
+    // console.log("clicked PLEEEASEEE")
 //     for (var i = 0; i < data.length; i++) {
 //       // Display the apropos information on the page
 //       $(".card-header").append(data[i].headline);
 //     }
-//   });
-});
+// //   });
+// });

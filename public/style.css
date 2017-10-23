@@ -1,0 +1,68 @@
+.save-button {
+   margin-left: 25px;
+    /* background-color: #73624F;  */
+    background-color: #A68E72;
+    color: black;
+    border: none;
+    
+}
+.save-button:hover {background-color: #33241F;}
+
+.whitespace {
+    background-color: white;
+    width: 100%;
+}
+
+.card-body {
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    border: none;
+}
+
+.color-card {
+background-color: #992F22;
+
+}
+
+.col-12 {
+    border: .75px solid;
+}
+.jumbotron-fluid {
+    background-image: url("images/newspaper1.jpg");
+    height: 70%;
+    /* opacity: .75;     */
+}
+#title {
+    text-align: center;
+    font-family: 'Playfair Display SC', serif;
+    font-size: 60pt;
+}
+
+#title-text {
+    text-align: center;
+    font-size: 30pt;
+    font-family: 'Questrial', sans-serif;
+    color: white;
+}
+
+a {
+    color: #A68E72;
+    
+}
+
+a:hover { 
+    color: #33241F;
+}
+.card-text {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: black;
+}
+
+#submit-scrape {
+    background-color: #992F22;
+    border: none;
+}

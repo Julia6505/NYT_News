@@ -2,7 +2,7 @@ var express = require("express");
 // var mongojs = require("mongojs");
 var bodyParser = require("body-parser");
 var cheerio = require("cheerio");
-// var request = require("request");
+var request = require("request");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var axios = require("axios");
@@ -41,21 +41,29 @@ app.set("view engine", "handlebars");
 
 // Routes
 
-app.get("/", function(req, res) {
-  res.render("index");
-
-});
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/nytscrape", {
   useMongoClient: true
 });
-// 2. At the "/all" path, display every entry in the animals collection
+//render the homepage with the handlebars index
+app.get("/", function(req, res) {
+  // db.Article
+  // .find({})
+  // .then(function(dbArticle) {
+  // res.render("index");
+  res.render("index");
+});
+// });
+
+//route to scrape data from NYT and handlebars code to present it on the page (corresponds with button in index.handlebars file)
 app.get("/scrape", function(req, res) {
-  //Scraping code, Cheerio
-  axios.get("https://www.nytimes.com/section/technology?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Tech&WT.nav=page").then(function(response) {
 
-  var $ = cheerio.load(response.data);
+  request("https://www.nytimes.com/section/technology?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Tech&WT.nav=page", 
+  function(error, response, html) {
 
+  var $ = cheerio.load(html);
+  var scrapedArticles = {};
+//actual scraping method
   $("a.story-link").each(function(i, element) {
     var results = {};
     results.link = $(this).attr("href");
@@ -63,81 +71,107 @@ app.get("/scrape", function(req, res) {
     results.blurb = $(this).children().find(".summary").text();
     // console.log("This is my blurb " + results.blurb)
     results.headline = $(this).children().find(".headline").text();
-    // console.log("This is my headline " + results.headline)
-    db.Article
-    .create(results)
+    console.log("This is my headline " + results.headline)
+//take all of the results in the for loop and put them into the results objects
+    scrapedArticles[i] = results;
+});
+ //code to set variable for handlebars use on front-end
+     var forHandlebars = {
+         articles: scrapedArticles
+     };
+//send page to render with appropriate handlebars reference 
+     res.render("index", forHandlebars);
+    });
+  });
+//code to find and view saved articles in db on page
+app.get("/savedarticles", function(req, res) {
+  
+    // Grab every doc in the Articles array
+    db.Article.find({}, function(error, data) {
+      // Log any errors
+      if (error) {
+        console.log(error);
+      }
+      // Or send the doc to the browser as a json object
+      else {
+        var forHandlebars = {
+          articles: data
+        };
+  
+        res.render("index", forHandlebars);
+      }
+    });
+  });
+//save scraped articles to db 
+app.post("/save", function(req, res) {
+  //this references the Articles schema
+    var newResults = {};
+  
+    newResults.link = req.body.link;
+    newResults.blurb = req.body.blurb;
+    newResults.headline = req.body.headline;
+
+      db.Article
+    .create(newResults)
     .then(function(dbArticle) {
-      // res.send("Scrape Complete");
-      console.log(results)
+      res.redirect("/scrape");
+
+      console.log("YES", newResults);
     })
     .catch(function(err) {
-      res.json(err);
-    })
+    res.json(err);
   })
   })
-})
-
-    //--------below code was for Mongojs before Mongoose 
-  //   if (headline && link && blurb) {
-  //     db.articles.insert({
-  //       headline: headline,
-  //       link: link,
-  //       blurb: blurb
-  //     },
-  //   function (err, inserted) {
-  //     if (err) {
-  //       console.log(err);
-  //     }
-  //     else {
-  //       console.log(inserted);
-  //     }
-  //   });
-  // }
-  //----------end of Mongojs code
-
-
-//   db.articles.find({}, function(error, found) {
-//     if (error) {
-//       console.log(error);
-//     }
-//     else {
-//       res.json(found);
-//     }
-//   });
-// });
-
-// 3. At the "/name" path, display every entry in the animals collection, sorted by name
-// app.get("/name", function(req, res) {
-  // Query: In our database, go to the animals collection, then "find" everything,
-  // but this time, sort it by name (1 means ascending order)
-//   db.animals.find().sort({ name: 1 }, function(error, found) {
-    // // Log any errors if the server encounters one
-    // if (error) {
-    //   console.log(error);
-    // }
-    // Otherwise, send the result of this query to the browser
-//     else {
-//       res.json(found);
-//     }
-//   });
-// });
-
-// 4. At the "/weight" path, display every entry in the animals collection, sorted by weight
-//app.get("/weight", function(req, res) {
-  // Query: In our database, go to the animals collection, then "find" everything,
-  // but this time, sort it by weight (-1 means descending order)
-  //db.animals.find().sort({ weight: -1 }, function(error, found) {
-    // Log any errors if the server encounters one
-   // if (error) {
-    //  console.log(error);
-   // }
-    // Otherwise, send the result of this query to the browser
-//     else {
-//       res.json(found);
-//     }
-//   });
-// });
 
 app.listen(3000, function() {
-  console.log("We are running on port 3000. Awesomeness.");
+  console.log("We are running on port 3000. Awesomeness.")
 });
+
+//for reference when I return to complete notes part of project 
+    // var entry = new Article(newResults);
+  
+    // console.log("What is going on" + newResults.blurb);
+  
+    // Now, save that entry to the db
+    // entry.save(function(err, doc) {
+      // Log any errors
+      // if (err) {
+      //   console.log(err);
+      // }
+      // Or log the doc
+      // else {
+      //   console.log(doc);
+      // }
+    // });
+
+  // });
+  //____________
+
+// app.get("/articles", function(req, res) {
+//   db.Article
+//     .find({})
+//     .then(function(dbArticle) {
+//       res.json(dbArticle);
+//       // console.log(dbArticle, "scraped")
+//       console.log("TESTING THIS TESTING THIS")
+//     })
+//     .catch(function(err) {
+//       res.json(err);
+//     });
+// });
+
+  // db.Article
+  //   .create(results)
+  //   .then(function(dbArticle) {
+  //     res.json(dbArticle);  
+      // res.end();
+      
+      // console.log("YES", dbArticle);
+//     })
+//     .catch(function(err) {
+//     res.json(err);
+//   })
+//   })
+// })
+// })
+// })

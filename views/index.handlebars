@@ -1,3 +1,4 @@
+{{!-- begin nav bar --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand">NYT Mongo Scraper</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -5,25 +6,81 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">Home <span class="sr-only"></span></a>
-      <a class="nav-item nav-link active" href="#">Saved</a>
-      <button type="submit" class="btn btn-secondary" id="submit-scrape">Scrape New Articles</button>
-    </div>
+      <a class="nav-item nav-link active" href="/scrape">Home <span class="sr-only"></span></a>
+      <a class="nav-item nav-link active" href="/savedarticles">Saved</a>
+          <form action="/scrape" method="GET" name="scrapeit">
+      <button type="submit" class="btn btn-secondary" id="submit-scrape" data-toggle="modal" data-target="#myModal">Scrape New Articles</button>
+      </form>
+    </div>  
   </div>
 </nav>
+{{!-- end nav bar --}}
+{{!-- jumbotron --}}
   <div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-3">The New York Times</h1>
-    <p class="lead">Mongo Scraper</p>
+    <h1 class="display-3" id="title">The New York Times</h1>
+      <div class="container"> 
+        <p class="lead" id="title-text">Mongo Scraper</p>
+    </div>
   </div>
-  </div>
+{{!-- end jumbotron --}}
+{{!-- modal --}}
 <section>
-<div class="card">
-  <h4 class="card-header">Link to Article</h4>
-  <div class="card-body">
-    {{!-- <h4 class="card-title">Special title treatment</h4> --}}
-    <p class="card-text">Blurb about article goes here.</p>
-    <a href="#" class="btn btn-primary">Save article</a>
+  <div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cool!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="false">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <p>You just scraped some New York Times tech articles!</p>
+      </div>
+      <div class="modal-footer">
+        <form>
+        <button type="button" class="btn btn-secondary" id="show-articles" data-dismiss="modal">Close</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
+{{!-- end modal --}}
+{{!-- area for scraped articles --}}
+<div class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-12">
+      <div class="card color-card">
+      <div class="card-body">
+        {{#each articles}}
+     <div class="whitespace">
+      <br>
+     </div>
+    <h4 class="card-header"><a href={{this.link}}>{{this.headline}}</a></h4>       
+    <p class="card-text">{{this.blurb}}</p>
+    <div>
+    <form action="/save" method="POST">
+        <input type="hidden" name="blurb" value="{{this.blurb}}">
+        <input type="hidden" name="link" value="{{this.link}}">
+        <input type="hidden" name="headline" value="{{this.headline}}">
+        <button type="submit" class="btn btn-primary save-button">Save article</button>
+    </form>
+    </div>
+    {{/each}}
+  </div>
+</div>
+</div>
+    <div class="col"></div>
+</div>
+</div>
 </section>
+{{!-- end of scraped articles --}}
+
+
+
+ {{!-- <form action="/update/{{this.id}}" method="POST">
+                        <input type="hidden" name="played" value=1>
+                        <input type="hidden" name="newgame" value={{this.newgame}}>
+                        <button type="submit" class="btn btn-success played">Played It!</button>
+                    </form> --}}

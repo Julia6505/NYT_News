@@ -3,7 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var cheerio = require("cheerio");
 var request = require("request");
-// var logger = require("morgan");
+var logger = require("morgan");
 var mongoose = require("mongoose");
 var axios = require("axios");
 var db = require("./models");
@@ -45,7 +45,8 @@ mongoose.Promise = Promise;
 if (process.env.MONGODB_URI){
   mongoose.connect(process.env.MONGODB_URI)
 }else{
-mongoose.connect("mongodb://nytscrape:scrape@ds227865.mlab.com:27865/heroku_n08zrf87", {
+  mongoose.connect("mongodb://localhost/nytscrape", {
+// mongoose.connect("mongodb://nytscrape:scrape@ds227865.mlab.com:27865/heroku_5556xmfk", {
   useMongoClient: true
 });
 };

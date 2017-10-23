@@ -9,7 +9,7 @@ var axios = require("axios");
 var db = require("./models");
 
 // var PORT = process.env.PORT || 8080;
-var PORT = process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
 var app = express();
 
 //------Mongo DB before using Mongoose
@@ -45,8 +45,7 @@ mongoose.Promise = Promise;
 if (process.env.MONGODB_URI){
   mongoose.connect(process.env.MONGODB_URI)
 }else{
-  mongoose.connect("mongodb://localhost/nytscrape", {
-// mongoose.connect("mongodb://nytscrape:scrape@ds227865.mlab.com:27865/heroku_5556xmfk", {
+mongoose.connect("mongodb://nytscrape:scrape@ds227865.mlab.com:27865/heroku_5556xmfk", {
   useMongoClient: true
 });
 };
@@ -128,7 +127,7 @@ app.post("/save", function(req, res) {
   })
   })
 
-app.listen(PORT, function() {
+app.listen(port, function() {
   console.log("We are running on port 3000. Awesomeness.")
 });
 

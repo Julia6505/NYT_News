@@ -45,7 +45,7 @@ mongoose.Promise = Promise;
 if (process.env.MONGODB_URI){
   mongoose.connect(process.env.MONGODB_URI)
 }else{
-mongoose.connect("mongodb://nytscrape:scrape@ds227865.mlab.com:27865/heroku_n08zrf87", {
+mongoose.connect("mongodb://nytscrape:scrape@ds227865.mlab.com:27865/heroku_5556xmfk", {
   useMongoClient: true
 });
 };

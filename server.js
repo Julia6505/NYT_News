@@ -42,7 +42,7 @@ app.set("view engine", "handlebars");
 // Routes
 
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/nytscrape", {
+mongoose.connect("mongodb://heroku_n08zrf87:smbfa2fg73eagj2ej7082khavj@ds227865.mlab.com:27865/heroku_n08zrf87", {
   useMongoClient: true
 });
 //render the homepage with the handlebars index

@@ -41,14 +41,14 @@ app.set("view engine", "handlebars");
 
 // Routes
 //mongodb://user:pass@host:port/db'
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/nytscrape";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
 mongoose.Promise = Promise;
-if (process.env.MONGODB_URI){
-  mongoose.connect(process.env.MONGODB_URI)
-}else{
-mongoose.connect("mongodb://localhost/nytscrape", {
+mongoose.connect(MONGODB_URI, {
   useMongoClient: true
 });
-};
 //render the homepage with the handlebars index
 app.get("/", function(req, res) {
   // db.Article
